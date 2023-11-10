@@ -1,0 +1,176 @@
+{
+    "version": "0.1",
+    "data": [
+        {
+            "title": "E-mail marketing",
+            "paragraphs": [
+                {
+                    "context": "Um exemplo comum de marketing de permiss\u00e3o \u00e9 uma newsletter enviada aos clientes de uma empresa de publicidade. Essas newsletters informam os clientes sobre os pr\u00f3ximos eventos ou promo\u00e7\u00f5es, ou novos produtos. Neste tipo de publicidade, uma empresa que deseja enviar uma newsletter aos seus clientes pode perguntar-lhes no ponto de compra se eles gostariam de receber a newsletter.",
+                    "qas": [
+                        {
+                            "id": 0,
+                            "question": "que \u00e9 o uso mais comum de marketing por e-mail opt-in",
+                            "answers": [
+                                {
+                                    "text": "uma newsletter enviada aos clientes de uma empresa de publicidade"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "A M\u00e3e (Como Eu Conheci Sua M\u00e3e)",
+            "paragraphs": [
+                {
+                    "context": "Tracy McConnell , mais conhecido como  The Mother '' , \u00e9 o personagem-t\u00edtulo da s\u00e9rie de televis\u00e3o da CBS How I Met Your Mother . O show , narrado por Future Ted , conta a hist\u00f3ria de como Ted Mosby conheceu The Mother . Tracy McConnell aparece em 8 epis\u00f3dios de  Lucky Penny '' para  The Time Travelers '' como um personagem invis\u00edvel ; ela foi vista pela primeira vez em  Something New '' e foi promovida a personagem principal.",
+                    "qas": [
+                        {
+                            "id": 0,
+                            "question": "como i.met sua m\u00e3e que \u00e9 a m\u00e3e",
+                            "answers": [
+                                {
+                                    "text": "Tracy McConnell"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Fertiliza\u00e7\u00e3o humana",
+            "paragraphs": [
+                {
+                    "context": "O processo de fertiliza\u00e7\u00e3o envolve uma fus\u00e3o de espermatoz\u00f3ides com um \u00f3vulo. A sequ\u00eancia mais comum come\u00e7a com a ejacula\u00e7\u00e3o durante a c\u00f3pula, segue com a ovula\u00e7\u00e3o e termina com a fertiliza\u00e7\u00e3o. V\u00e1rias exce\u00e7\u00f5es a esta sequ\u00eancia s\u00e3o poss\u00edveis, incluindo insemina\u00e7\u00e3o de \u00f3vulos, fertiliza\u00e7\u00e3o in vitro, ejacula\u00e7\u00e3o externa sem c\u00f3pula ou c\u00f3pula logo ap\u00f3s a ovula\u00e7\u00e3o. Ao encontrar o o\u00f3cito secund\u00e1rio, o acrossomo do espermatoz\u00f3ide produz enzimas que permitem",
+                    "qas": [
+                        {
+                            "id": 0,
+                            "question": "Que tipo de fertiliza\u00e7\u00e3o ocorre em humanos",
+                            "answers": [
+                                {
+                                    "text": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Lista de quarterbacks de carreira da Liga Nacional de Futebol ganha l\u00edderes",
+            "paragraphs": [
+                {
+                    "context": "O quarterback ativo Tom Brady det\u00e9m os recordes de mais vit\u00f3rias com 220, a maioria das vit\u00f3rias na temporada regular com 195 e a maioria das vit\u00f3rias na p\u00f3s-temporada com 25, a partir da semana 16 da temporada 2017 da NFL. Tendo jogado a totalidade de sua carreira com o New England Patriots, cada um dos registros de vit\u00f3rias de Brady tamb\u00e9m se aplicam a vit\u00f3rias com uma \u00fanica equipe.",
+                    "qas": [
+                        {
+                            "id": 0,
+                            "question": "quem teve mais vit\u00f3rias na nfl",
+                            "answers": [
+                                {
+                                    "text": "Tom Brady"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Pom Klementieff",
+            "paragraphs": [
+                {
+                    "context": "Pom Klementieff (nascido em 3 de maio de 1986 ) \u00e9 uma atriz francesa. Ela foi treinada na escola de teatro Cours Florent em Paris e apareceu em filmes como Loup ( 2009 ) , Sleepless Night ( 2011 ) e Hacker's Game ( 2015 ) . Ela interpreta o papel de Mantis no filme Guardi\u00f5es da Gal\u00e1xia Vol. 2 ( 2017 ) e aparecer\u00e1 no mesmo papel no Infinity War ( 2017 ) .",
+                    "qas": [
+                        {
+                            "id": 0,
+                            "question": "quem jogou mantis guardi\u00f5es da gal\u00e1xia 2",
+                            "answers": [
+                                {
+                                    "text": "Pom Klementieff"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Hist\u00f3ria dos Acadianos",
+            "paragraphs": [
+                {
+                    "context": "A sobreviv\u00eancia dos assentamentos acadianos baseou-se na coopera\u00e7\u00e3o bem-sucedida com os povos ind\u00edgenas da regi\u00e3o. Nos primeiros anos do assentamento acadiano , isso incluiu um pequeno n\u00famero de casamentos registrados entre colonos acadianos e mulheres ind\u00edgenas . Alguns registros sobreviveram mostrando casamentos entre colonos acadianos e mulheres ind\u00edgenas em ritos cat\u00f3licos romanos formais , por exemplo, o casamento de Charles La Tour com uma mulher mi'kmau em 1626 .",
+                    "qas": [
+                        {
+                            "id": 0,
+                            "question": "que tribo ind\u00edgena os acadianos formaram amizades e alian\u00e7as com",
+                            "answers": [
+                                {
+                                    "text": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Vice-Ministro-Chefe de Jammu e Caxemira",
+            "paragraphs": [
+                {
+                    "context": "Vice-Ministro-Chefe de Jammu e Caxemira Incumbent Vacant desde 20 de junho de 2018 Governador interino de Jammu e Caxemira Titular inaugural Bakshi Ghulam Mohammad (como Vice-Primeiro-Ministro) Forma\u00e7\u00e3o 5 de mar\u00e7o de 1948",
+                    "qas": [
+                        {
+                            "id": 0,
+                            "question": "quem \u00e9 vice cm de j e k",
+                            "answers": [
+                                {
+                                    "text": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "som Nashville",
+            "paragraphs": [
+                {
+                    "context": "No in\u00edcio dos anos 1960, o som de Nashville come\u00e7ou a ser desafiado pelo som rival Bakersfield no lado do pa\u00eds e pela Invas\u00e3o Brit\u00e2nica no lado do pop; a composi\u00e7\u00e3o desses problemas foram as mortes s\u00fabitas, em acidentes de avi\u00e3o separados, de Patsy Cline e Jim Reeves, duas das maiores estrelas do som de Nashville.",
+                    "qas": [
+                        {
+                            "id": 0,
+                            "question": "o som nashville trouxe um som polido e cosmopolita para a m\u00fasica country por",
+                            "answers": [
+                                {
+                                    "text": "o uso de arranjos de cordas exuberantes com uma orquestra real e, muitas vezes, vocais de fundo fornecidos por um coro"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Lista de emissoras da Premier League",
+            "paragraphs": [
+                {
+                    "context": "Alb\u00e2nia Alb\u00e2nia Albanian SuperSport Kosovo S\u00e9rvio Croata Esloveno Desporto Klub Cro\u00e1cia B\u00f3snia e Herzegovina Montenegro Maced\u00f3nia Eslov\u00e9nia Andorra Espanhol Movistar+ Arm\u00e9nia apenas Rep\u00fablica Checa Arm\u00e9nia 2 \u00c1ustria Alemanha Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e1quia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia Eslov\u00e9nia",
+                    "qas": [
+                        {
+                            "id": 0,
+                            "question": "em que canal \u00e9 a primeira liga em Fran\u00e7a",
+                            "answers": [
+                                {
+                                    "text": "SFR Sport"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
