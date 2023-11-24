@@ -12,6 +12,7 @@
                             "question": "que \u00e9 o uso mais comum de marketing por e-mail opt-in",
                             "answers": [
                                 {
+                                    "answer_start":0,
                                     "text": "uma newsletter enviada aos clientes de uma empresa de publicidade"
                                 }
                             ]
@@ -31,6 +32,7 @@
                             "question": "como i.met sua m\u00e3e que \u00e9 a m\u00e3e",
                             "answers": [
                                 {
+                                    "answer_start":0,
                                     "text": "Tracy McConnell"
                                 }
                             ]
@@ -50,6 +52,7 @@
                             "question": "Que tipo de fertiliza\u00e7\u00e3o ocorre em humanos",
                             "answers": [
                                 {
+                                    "answer_start":0,
                                     "text": ""
                                 }
                             ]
@@ -69,6 +72,7 @@
                             "question": "quem teve mais vit\u00f3rias na nfl",
                             "answers": [
                                 {
+                                    "answer_start":0,
                                     "text": "Tom Brady"
                                 }
                             ]
@@ -88,6 +92,7 @@
                             "question": "quem jogou mantis guardi\u00f5es da gal\u00e1xia 2",
                             "answers": [
                                 {
+                                    "answer_start":0,
                                     "text": "Pom Klementieff"
                                 }
                             ]
@@ -107,6 +112,7 @@
                             "question": "que tribo ind\u00edgena os acadianos formaram amizades e alian\u00e7as com",
                             "answers": [
                                 {
+                                    "answer_start":0,
                                     "text": ""
                                 }
                             ]
@@ -126,6 +132,7 @@
                             "question": "quem \u00e9 vice cm de j e k",
                             "answers": [
                                 {
+                                    "answer_start":0,
                                     "text": ""
                                 }
                             ]
@@ -145,6 +152,7 @@
                             "question": "o som nashville trouxe um som polido e cosmopolita para a m\u00fasica country por",
                             "answers": [
                                 {
+                                    "answer_start":0,
                                     "text": "o uso de arranjos de cordas exuberantes com uma orquestra real e, muitas vezes, vocais de fundo fornecidos por um coro"
                                 }
                             ]
@@ -164,6 +172,7 @@
                             "question": "em que canal \u00e9 a primeira liga em Fran\u00e7a",
                             "answers": [
                                 {
+                                    "answer_start":0,
                                     "text": "SFR Sport"
                                 }
                             ]
