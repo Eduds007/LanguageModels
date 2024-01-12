@@ -55,11 +55,8 @@ def translate(dataset, pipe, size=10):
 def main():
 
     parser = argparse.ArgumentParser(description="Code to translate NQ")
-
-    parser.add_argument('--size', type=int, help="Quantas passagens vc deseja traduzir")
-
+    parser.add_argument('--size', type=int, default=10, help="Quantas passagens vc deseja traduzir")
     args = parser.parse_args()
-
     size= args.size
 
     #load natural questions db
