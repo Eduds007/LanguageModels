@@ -1,7 +1,7 @@
 import json
 import pandas as pd
 
-filename = '../../2. Seleção de modelos e dados/Modelo Opus/nq-traduzido-opus-5k.xlsx'
+filename = './2. Seleção de modelos e dados/Modelo Opus/nq-traduzido-opus-5k.xlsx'
 
 squad = {
     "version": "0.1",
@@ -36,7 +36,7 @@ for passage in json.loads(traduzido.to_json(orient='records')):
     squad['data'].append(estrutura)
 
 json_data =squad
-file_path = "data.json"
+file_path = "data-50k.json"
 with open(file_path, "w") as json_file:
     json.dump(json_data, json_file, indent=4)
 
