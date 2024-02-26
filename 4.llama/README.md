@@ -1,7 +1,9 @@
 # Estudo do Llama em Inteligência Artificial
 
 ## Introdução
-
+O Llama2 é um modelo de linguagem de grande escala de código aberto lançado recentemente pela Meta AI.
+Existem três versões do Llama2 disponíveis: 7 bilhões de parâmetros, 13 bilhões de parâmetros e 70 bilhões de parâmetros.
+O Llama2 tem várias características importantes, como superar outros modelos de linguagem em testes de raciocínio, proficiência em codificação e conhecimento.
 O llama é uma ferramenta emergente na inteligência artificial, conhecida por sua eficácia na resolução de problemas complexos. Sua capacidade de otimização e adaptabilidade o tornam uma escolha atraente para uma variedade de aplicações em IA. No mundo da pesquisa e desenvolvimento de algoritmos, o llama está ganhando destaque como uma poderosa ferramenta da meta.
 
 ## Importância do Uso do Llama em IA
