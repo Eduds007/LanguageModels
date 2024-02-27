@@ -17,10 +17,15 @@ Este projeto visa explorar as possibilidades do uso do llama no projeto de IA de
 ## Fazendo o ChatBot
 
 O chatbot é construído em Python usando as bibliotecas Streamlit e Replicate. O usuário fornece um token API e uma mensagem de prompt, e o Llama 2 gera uma resposta que é exibida no aplicativo.
-![Descrição da imagem](caminho/para/a/imagem.png)
+![Funionamento do llama](llama2.jpg)
 
 O objetivo principal é usar os dados obtidos do DPR pela biblioteca [Haystack](https://haystack.deepset.ai/) treinados utilizado a versão traduzida do natrual questions para português.
 
 ---
-
+### App
+Para Rodar o app criado utilizando a biblioteca streamlit é necessário somente utilizar o comando (na pasta 4.llama): 
+``` 
+$ streamlit run llama_app.py 
+```
+---
 Você pode acompanhar nosso projeto completo: [Projeto NPL IA - C4AI  ](https://github.com/Eduds007/LanguageModels) 📈✨
