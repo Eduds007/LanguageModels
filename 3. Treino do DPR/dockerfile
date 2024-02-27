@@ -1,0 +1,20 @@
+# Use Python image as base
+FROM python:3.10
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Define environment variables
+ENV SQUAD_INPUT_FILENAME=""
+ENV DPR_OUTPUT_FILENAME=""
+ENV NUM_HARD_NEGATIVE_CTXS=30
+
+
+# Command to run the script
+CMD ["python", "squad_to_dpr.py", "--squad_input_filename", "data-5k-json", "--dpr_output_filename", "data-dpr-5k.json", "--num_hard_negative_ctxs", "30"]

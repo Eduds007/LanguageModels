@@ -256,11 +256,12 @@ def main(
     document_store_type_config: Tuple[str, Dict] = ("ElasticsearchDocumentStore", {}),
     retriever_type_config: Tuple[str, Dict] = ("BM25Retriever", {}),
     num_hard_negative_ctxs: int = 30,
-    split_dataset: bool = False,
+    split_dataset: bool = True,
 ):
     tqdm.write(f"Using SQuAD-like file {squad_input_filename}")
 
     # 1. Load squad file data
+    print(squad_input_filename)
     squad_file_path, squad_data = load_squad_file(squad_file_path=squad_input_filename)
 
     # 2. Prepare document store
