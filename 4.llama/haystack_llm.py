@@ -3,6 +3,9 @@ from haystack.nodes import PromptNode, PromptTemplate, BM25Retriever
 from haystack import Pipeline, Agent
 import json
 
+
+#Erro 
+
 # Configuração do armazenamento de documentos
 print("Carregando Document Store")
 document_store = InMemoryDocumentStore(use_bm25=True)
@@ -12,18 +15,18 @@ with open(file, encoding='utf-8') as json_file:
 document_store.write_documents(hdocs, duplicate_documents='overwrite')
 print("Document Store carregada")
 
-# Configuração do BM25 Retriever
-print("Carregando Retriever")
+# BM25 Retriever
+print("Carregando Retriever  ...")
 retriever = BM25Retriever(document_store=document_store, top_k=7)
-print("Retriever Carregado")
+print("Retriever Carregado !")
 
-# Configuração do PromptNode e PromptTemplate para responder perguntas
+# Configuração do PromptNode e PromptTemplate- QA
 QA_promptnode = PromptTemplate(
     prompt="Responda a pergunta baseando-se nos documentos fornecidos. Pergunta: {query}. Resposta:",
 )
 QA_builder = PromptNode(
     model_name_or_path="text-davinci-003",
-    api_key="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",
+    api_key="TEM-QUE-TER-UMA-CHAVE-DE-API-É-SÓ-SE-CADASTRAR-NO-SITE-DA-OPENAI-E-PEGAR-A-CHAVE: https://beta.openai.com/signup/",
     default_prompt_template=QA_promptnode
 )
 
