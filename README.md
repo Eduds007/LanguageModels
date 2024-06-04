@@ -33,6 +33,28 @@ Esse projeto visa desenvolver modelos de linguagem em Português. Em específico
   pip install datasets
   ```
 
+# 
+
+# Executando o projeto
+
+Para poder executar o projeto, que está em um docker, basta executar os comandos: 
+
+Se for a primeira vez:
+  ```
+  cd LanguageModels
+  cd src
+  sudo docker-compose up --build
+  ```
+Caso contrário:
+  ```
+  cd LanguageModels
+  cd src
+  sudo docker-compose up
+  ```
+
+
+
+
 
 # Resumo do Projeto de NLP e Recuperação de Informações
 
