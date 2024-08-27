@@ -13,6 +13,67 @@ let currentChatId = null;
 let userText = null;
 const API_URL = "http://127.0.0.1:8000"; // Backend URL
 
+const sendMessage = async () => {
+    if (!userText || !currentChatId) return;
+
+    try {
+        // Enviar a mensagem do usuário para o backend
+        const response = await fetch(`${API_URL}/chats/${currentChatId}/messages/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ content: userText, user: "User" })
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to send message");
+        }
+
+        // Adicionar a mensagem do usuário na interface
+        const chatElement = createChatElement(userText, "outgoing");
+        chatContainer.appendChild(chatElement);
+        chatContainer.scrollTo(0, chatContainer.scrollHeight);
+
+        // Esperar pela resposta do chatbot
+        await getChatResponse();
+
+    } catch (error) {
+        console.error("Error sending message:", error);
+    }
+};
+
+const getChatResponse2 = async () => {
+    try {
+        const timeout = 180000; // 3 minutos em milissegundos
+        const startTime = Date.now();
+
+        while (Date.now() - startTime < timeout) {
+            const response = await fetch(`${API_URL}/chats/${currentChatId}`);
+            const chat = await response.json();
+
+            // Encontrar a última mensagem do chatbot
+            const chatbotMessage = chat.messages
+                .reverse()
+                .find(msg => msg.user === "Chatbot");
+
+            if (chatbotMessage) {
+                const chatElement = createChatElement(chatbotMessage.content, "incoming");
+                chatContainer.appendChild(chatElement);
+                chatContainer.scrollTo(0, chatContainer.scrollHeight);
+                return;
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Esperar 1 segundo antes de tentar novamente
+        }
+
+        console.error("Timeout: No response from chatbot within 3 minutes");
+
+    } catch (error) {
+        console.error("Error fetching chat response:", error);
+    }
+};
+
 
 
 const createChatElement = (content, className) => {
@@ -22,7 +83,7 @@ const createChatElement = (content, className) => {
     return chatDiv;
 };
 
-const getChatResponse = async (incomingChatDiv) => {
+const getChatResponse1 = async (incomingChatDiv) => {
     try {
         const response = await fetch(`${API_URL}/chats/${currentChatId}/messages/`, {
             method: "POST",
@@ -50,44 +111,130 @@ const getChatResponse = async (incomingChatDiv) => {
     }
 };
 
-const showTypingAnimation = () => {
-    const html = `<div class="chat-content">
-                    <div class="chat-details">
-                        <img src="/images/C4AI.png" alt="chatbot-img">
-                        <div class="typing-animation">
-                            <div class="typing-dot" style="--delay: 0.2s"></div>
-                            <div class="typing-dot" style="--delay: 0.3s"></div>
-                            <div class="typing-dot" style="--delay: 0.4s"></div>
-                        </div>
-                    </div>
-                    <span class="material-symbols-rounded">content_copy</span>
-                </div>`;
-    const incomingChatDiv = createChatElement(html, "incoming");
-    chatContainer.appendChild(incomingChatDiv);
-    chatContainer.scrollTo(0, chatContainer.scrollHeight);
-    getChatResponse(incomingChatDiv);
-};
-
-const handleOutgoingChat = () => {
+const handleOutgoingChat = async () => {
     userText = chatInput.value.trim();
     if (!userText) return;
 
+    // Limpa o campo de entrada e ajusta a altura
     chatInput.value = "";
     chatInput.style.height = `${initialInputHeight}px`;
 
-    const html = `<div class="chat-content">
-                    <div class="chat-details">
-                        <img src="images/userIcon.png" alt="user-img">
-                        <p>${userText}</p>
-                    </div>
-                </div>`;
-
-    const outgoingChatDiv = createChatElement(html, "outgoing");
+    // Cria e exibe a mensagem do usuário no front-end
+    const userMessageHtml = `
+        <div class="chat-content">
+            <div class="chat-details">
+                <img src="images/userIcon.png" alt="user-img">
+                <p>${userText}</p>
+            </div>
+        </div>`;
+    const outgoingChatDiv = createChatElement2(userMessageHtml, "outgoing");
     chatContainer.appendChild(outgoingChatDiv);
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
-    setTimeout(showTypingAnimation, 500);
+
+    // Cria e exibe o elemento de resposta do chatbot com animação de digitação
+    const typingChatDiv = document.createElement('div');
+    typingChatDiv.className = "chat incoming typing-animation";  // Adiciona uma classe única para a animação
+    typingChatDiv.innerHTML = `
+        <div class="chat-content">
+            <div class="chat-details">
+                <img src="images/C4AI.png" alt="chatbot-img">
+                <div class="typing-animation">
+                    <div class="typing-dot" style="--delay: 0.2s"></div>
+                    <div class="typing-dot" style="--delay: 0.3s"></div>
+                    <div class="typing-dot" style="--delay: 0.4s"></div>
+                </div>
+            </div>
+        </div>`;
+    chatContainer.appendChild(typingChatDiv);
+    chatContainer.scrollTo(0, chatContainer.scrollHeight);
+
+    try {
+        // Envia a mensagem do usuário para o backend
+        const response = await fetch(`${API_URL}/chats/${currentChatId}/messages/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ content: userText, user: "User" })
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to send message");
+        }   
+
+        responseData = await response.json();
+
+
+        updateChatWithResponse(responseData);
+
+    } catch (error) {
+        console.error("Error sending message:", error);
+        removeTypingAnimation(); // Remove a animação em caso de erro
+    }
 };
 
+const updateChatWithResponse = (responseData) => {
+    // Encontra e remove a animação de digitação
+    const typingChatDiv = chatContainer.querySelector(".typing-animation");
+    if (typingChatDiv) {
+        // Substitui a animação de digitação pela mensagem do chatbot
+        typingChatDiv.innerHTML = `
+            <div class="chat-content">
+                <div class="chat-details">
+                    <img src="images/C4AI.png" alt="chatbot-img">
+                    <p>${responseData.content}</p>  <!-- Ajuste o acesso ao conteúdo conforme necessário -->
+                </div>
+            </div>`;
+        typingChatDiv.classList.remove("typing-animation"); // Remove a classe de animação
+    }
+};
+
+const removeTypingAnimation = () => {
+    const typingChatDiv = chatContainer.querySelector(".typing-animation");
+    if (typingChatDiv) {
+        chatContainer.removeChild(typingChatDiv); // Remove o elemento de animação do DOM
+    }
+};
+
+const createChatElement2 = (html, type) => {
+    // Cria um novo elemento de chat e aplica a classe com base no tipo
+    const div = document.createElement('div');
+    div.className = `chat ${type}`;
+    div.innerHTML = html;
+    return div;
+};
+
+
+const getChatResponse = async () => {
+    try {
+        const timeout = 180000; // 3 minutos em milissegundos
+        const startTime = Date.now();
+
+        while (Date.now() - startTime < timeout) {
+            const response = await fetch(`${API_URL}/chats/${currentChatId}`);
+            const chat = await response.json();
+
+            // Encontrar a última mensagem do chatbot
+            const chatbotMessage = chat.messages
+                .reverse()
+                .find(msg => msg.user === "Chatbot");
+
+            if (chatbotMessage) {
+                const chatElement = createChatElement(chatbotMessage.content, "incoming");
+                chatContainer.appendChild(chatElement);
+                chatContainer.scrollTo(0, chatContainer.scrollHeight);
+                return;
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Esperar 1 segundo antes de tentar novamente
+        }
+
+        console.error("Timeout: No response from chatbot within 3 minutes");
+
+    } catch (error) {
+        console.error("Error fetching chat response:", error);
+    }
+};
 
 newChatBtn.addEventListener("click", async () => {
     try {
@@ -153,18 +300,22 @@ const loadChatsList = async () => {
         chatsList.innerHTML = "";
         chats.forEach(chat => {
             const chatElement = document.createElement("button");
-            chatElement.classList.add("open-chatx")
+            chatElement.classList.add("open-chatx");
             chatElement.classList.add("chat-item");
             chatElement.innerHTML = `
                 <span class="chat-name">Chat ${chat.id}</span>
                 <span class="material-symbols-rounded delete-chat" data-chat-id="${chat.id}">delete</span>
             `;
-            chatElement.querySelector(".chat-name").addEventListener("click", () => loadChat(chat.id));
+            
+            // Adiciona o event listener para o botão inteiro
+            chatElement.addEventListener("click", () => loadChat(chat.id));
+            
             chatElement.querySelector(".delete-chat").addEventListener("click", async (event) => {
-                event.stopPropagation();
+                event.stopPropagation();  // Impede que o clique no botão delete também carregue o chat
                 await deleteChat(chat.id);
                 loadChatsList();
             });
+            
             chatsList.appendChild(chatElement);
         });
 
@@ -175,6 +326,7 @@ const loadChatsList = async () => {
         console.error("Error loading chats list:", error);
     }
 };
+
 
 const deleteMessages = async () => {
     if (!currentChatId) {

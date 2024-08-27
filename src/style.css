@@ -88,6 +88,7 @@ body {
 span.material-symbols-rounded {
   user-select: none;
   cursor: pointer;
+  margin-left: auto;
 }
 .chat .chat-content span {
   cursor: pointer;
@@ -264,58 +265,108 @@ span.material-symbols-rounded {
   position: fixed;
   top: 0; 
   left: 0;
-  width: 300px; /* Ajuste conforme necessário */
+  width: 300px;
   height: 100vh;
-  background-color: #695656; /* Cor de fundo da barra lateral */
+  background-color: #2C3E50; /* Cor de fundo da barra lateral */
   padding: 20px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.sidebar h2{
-  color: #fff;
+.sidebar h2 {
+  color: #ECF0F1;
   font-size: 2rem;
+  margin-bottom: 20px;
+  background-color: #34495E; /* Fundo diferenciado */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+  text-align: center; /* Centralizar o texto */
+}
+#chats-list {
+  flex-grow: 1;
+  overflow-y: auto;
   margin-bottom: 20px;
 }
 
 .open-chat {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  padding: 15px; /* Aumentei o padding para dar mais espaço */
+  background-color: #3B3B98; /* Cor de fundo com tom mais vibrante */
+  border-radius: 12px; /* Bordas mais arredondadas */
+  margin-bottom: 15px;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Adicionei uma animação de transformação */
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para destacar */
+}
+
+.open-chat:hover {
+  background-color: #4834D4; /* Cor ao passar o mouse */
+  transform: translateY(-2px); /* Efeito de elevação ao passar o mouse */
 }
 
 .open-chat img {
-  width: 50px;
+  width: 50px; /* Aumentei o tamanho da imagem */
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 .open-chat p {
-  color: #fff;
+  color: #F7F1E3; /* Cor do texto ajustada para melhor contraste */
   font-weight: bold;
+  font-size: 1.2rem; /* Aumentei o tamanho do texto */
 }
 
 #new-chat-btn {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #E74C3C;
+  color: #ECF0F1;
   border: none;
-  padding: 10px 20px;
+  padding: 15px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
 }
 
+#new-chat-btn:hover {
+  background-color: #C0392B;
+}
 
 .open-chatx {
-  display: block;
-  margin: 5px;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
+  display: flex;
+  align-items: center;
+  padding: 15px 90px; /* Aumentei o padding para dar mais espaço */
+  background-color: #3B3B98; /* Cor de fundo com tom mais vibrante */
+  border-radius: 12px; /* Bordas mais arredondadas */
+  margin-bottom: 15px;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Adicionei uma animação de transformação */
   cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para destacar */
 }
 .open-chatx:hover {
-  background-color: #0056b3;
+  background-color: #4834D4; /* Cor ao passar o mouse */
+  transform: translateY(-2px); /* Efeito de elevação ao passar o mouse */
+}
+
+.open-chatx img {
+  width: 50px; /* Aumentei o tamanho da imagem */
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+  margin-left: auto;
+
+}
+
+.open-chatx p {
+  color: #F7F1E3; /* Cor do texto ajustada para melhor contraste */
+  font-weight: bold;
+  font-size: 1.2rem; /* Aumentei o tamanho do texto */
 }
 .message {
   padding: 5px;

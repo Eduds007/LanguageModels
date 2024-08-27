@@ -7,6 +7,12 @@ from models import Base, Chat, Message
 from pydantic import BaseModel
 from typing import List
 from datetime import datetime
+import requests
+import time
+import json
+
+DPR_URL = "http://localhost:5000/query"
+
 
 DATABASE_URL = "sqlite:///./test.db"
 
@@ -80,21 +86,8 @@ def read_chat(chat_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Chat not found")
     return db_chat
 
-@app.post("/chats/{chat_id}/messages/", response_model=MessageInDB)
-def create_message_for_chat(
-        chat_id: int, message: MessageCreate, db: Session = Depends(get_db)):
-    db_message = Message(**message.dict(), chat_id=chat_id)
-    db.add(db_message)
-    db.commit()
-    db.refresh(db_message)
-    
-    # Simulando resposta do chatbot
-    chatbot_message = Message(content=f"Echo: {message.content}", user=CHATBOT_NAME, chat_id=chat_id)
-    db.add(chatbot_message)
-    db.commit()
-    db.refresh(chatbot_message)
-    
-    return db_message
+
+
 
 @app.get("/chats/", response_model=List[ChatInDB])
 def read_chats(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
@@ -113,3 +106,51 @@ def delete_chat(chat_id: int, db: Session = Depends(get_db)):
     db.query(Chat).filter(Chat.id == chat_id).delete()
     db.commit()
     return {"detail": "Chat and its messages deleted"}
+
+
+def send_query_to_dpr(query: str):
+    try:
+        # Faz a requisição inicial, mas espera a resposta, que pode demoarar 1 minuto
+        response = requests.post(DPR_URL, json={"query": query}, timeout=60)
+        if response.status_code == 200:
+            return response.json()  # Retorna a resposta completa
+        else:
+            return {"error": "Failed to retrieve data from DPR"}
+    except requests.exceptions.RequestException as e:
+        return {"error": f"An error occurred: {str(e)}"}
+
+
+
+@app.post("/chats/{chat_id}/messages/", response_model=MessageInDB)
+def create_message_for_chat(chat_id: int, message: MessageCreate, db: Session = Depends(get_db)):
+    # Adiciona a mensagem do usuário no banco de dados
+    db_message = Message(**message.dict(), chat_id=chat_id)
+    db.add(db_message)
+    db.commit()
+    db.refresh(db_message)
+
+    # Envia a mensagem para o DPR e recebe a resposta
+    dpr_response = send_query_to_dpr(message.content)
+    # Verifica se houve erro na resposta do DPR
+    if "error" in dpr_response:
+        chatbot_message_content = "Desculpe, não consegui processar sua pergunta."
+    else:
+        content_list = json.loads(dpr_response['content'])
+
+        # Acessar o 'answer' do primeiro item
+        answer = content_list[0]['answer']
+        chatbot_message_content = answer
+
+
+    # Adiciona a resposta do chatbot ao banco de dados
+    chatbot_message = Message(content=chatbot_message_content, user=CHATBOT_NAME, chat_id=chat_id)
+    db.add(chatbot_message)
+    db.commit()
+    db.refresh(chatbot_message)
+
+    return chatbot_message
+
+@app.get("/chats/{chat_id}/messages/", response_model=List[MessageInDB])
+def get_messages(chat_id: int, db: Session = Depends(get_db)):
+    messages = db.query(Message).filter(Message.chat_id == chat_id).all()
+    return messages
