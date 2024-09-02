@@ -77,3 +77,6 @@ O DPR é uma técnica de destaque que permite a recuperação eficiente de passa
 A implementação e o treinamento do DPR são essenciais para o sucesso do sistema de busca, destacando a importância de modelos de aprendizado profundo no avanço das capacidades de NLP. Esta abordagem supera os métodos tradicionais de busca por palavras-chave, oferecendo respostas mais precisas e contextualmente relevantes.
 
 
+## Base de dados em português
+
+Uma das principais contribuições desse projeto consiste em fornecer uma base perguntas e respostas com mais de 50000 passagens traduzidas com a utilização de um modelo de tradução treinado especificamente para a conversão de textos em inglês para português [NQ-PT-BR](https://huggingface.co/datasets/edu-milanez/NQ-PT-BR)

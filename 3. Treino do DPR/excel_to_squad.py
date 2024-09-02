@@ -1,7 +1,7 @@
 import json
 import pandas as pd
 
-filename = './2. Seleção de modelos e dados/Modelo Opus/nq-traduzido-opus-5k.xlsx'
+filename = './2. Seleção de modelos e dados/Modelo Opus/nq-traduzido-opus-50k.xlsx'
 
 squad = {
     "version": "0.1",
