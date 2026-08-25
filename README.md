@@ -1,101 +1,97 @@
-# Modelos de linguagem em Português
+# Language Models in Portuguese
 
-Esse projeto visa desenvolver modelos de linguagem em Português. Em específico, desenvolver um DPR (Dense Passage Retriever) treinado com bases de dados em português.
+This project aims to develop language models in Portuguese. Specifically, developing a DPR (Dense Passage Retriever) trained on Portuguese datasets.
 
-> **Projeto com cerca de dois anos** (cronograma abaixo é de 09/23 a 06/24). Foi
-> desenvolvido numa época em que os modelos de linguagem em português e os
-> encoders disponíveis eram bem mais limitados do que os de hoje — leia os
-> resultados com esse contexto em mente.
+> **This project is about two years old** (the timeline below runs from 09/23 to 06/24). It was developed at a time when Portuguese language models and the available encoders were much more limited than they are today — read the results with that context in mind.
 
-**Bolsista**: Eduardo Milanez Araujo & Eduardo Figueiredo Pacheco \
-**Orientador**: Fabio Gagliardi Cozman
+**Scholarship holder**: Eduardo Milanez Araujo & Eduardo Figueiredo Pacheco \
+**Advisor**: Fabio Gagliardi Cozman
 
-[Descrição do projeto](https://drive.google.com/file/d/1U2_mAwZgv8FBG5XjLi2hJwu-egMeKk9Q/view?usp=sharing)
+[Project description](https://drive.google.com/file/d/1U2_mAwZgv8FBG5XjLi2hJwu-egMeKk9Q/view?usp=sharing)
 
-## Cronograma do projeto
+## Project timeline
 
-| Atividades | 09/23 | 10/23 | 11/23 |  12/23 |  01/24 |  02/24 |  03/24 |  04/24 |  05/24 |  06/24 | 
+| Activities | 09/23 | 10/23 | 11/23 |  12/23 |  01/24 |  02/24 |  03/24 |  04/24 |  05/24 |  06/24 | 
 |-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|
-| 1. Revisão bibliográfica      | X      | X      |       |       |       |     |    | |  |  |
-| 2. Seleção de modelos e dados      | X        | X         | X           |     |     |   |     |     |    |     |
-| 3. Treino do DPR      |      |     | X          | X        | X           |     |     |   |  |     |     |
-| 4. Treino baseado em LLaMa      |      |      |   |    | X          | X        | X          |          |      |     |     |
-| 5. Análise de modelos DPR      |      |     |       |      |     |      |    X  |  X  |     |      |     |
-| 6. Avaliação de modelo generativo      | | | | | | | |      X | X     |   |  |
-| 7. Elaboração de repositório      |       |       |       |       |       |      |       |       |      X | X      |       |
-| 8. Elaboração de relatórios      |     |     |     |     |  X |    |     |    |     | X |
+| 1. Literature review      | X      | X      |       |       |       |     |    | |  |  |
+| 2. Model and data selection      | X        | X         | X           |     |     |   |     |     |    |     |
+| 3. DPR training      |      |     | X          | X        | X           |     |     |   |  |     |     |
+| 4. LLaMa-based training      |      |      |   |    | X          | X        | X          |          |      |     |     |
+| 5. DPR model analysis      |      |     |       |      |     |      |    X  |  X  |     |      |     |
+| 6. Generative model evaluation      | | | | | | | |      X | X     |   |  |
+| 7. Repository setup      |       |       |       |       |       |      |       |       |      X | X      |       |
+| 8. Report writing      |     |     |     |     |  X |    |     |    |     | X |
 
 
 
-## Principais bibliotecas utilizadas
+## Main libraries used
 
-> **Nota:** o treino do DPR originalmente usava a lib [Haystack](https://github.com/deepset-ai/haystack), mas ela está sem atualização desde ~2024 e não é mais compatível com as versões atuais de `transformers`/`numpy`/`scipy`. O treino em `3. Treino do DPR/` foi reescrito direto em `torch`/`transformers`, sem essa dependência — ver [`3. Treino do DPR/README.md`](./3.%20Treino%20do%20DPR/README.md).
+> **Note:** the DPR training originally used the [Haystack](https://github.com/deepset-ai/haystack) library, but it hasn't been updated since ~2024 and is no longer compatible with current versions of `transformers`/`numpy`/`scipy`. Training in `3. Treino do DPR/` was rewritten directly in `torch`/`transformers`, without that dependency — see [`3. Treino do DPR/README.md`](./3.%20Treino%20do%20DPR/README.md).
 
- [Datasets](https://github.com/huggingface/datasets): Biblioteca para reutilizar modelos de linguagem produzidos por outros pesquisadores. 
+ [Datasets](https://github.com/huggingface/datasets): Library for reusing language models produced by other researchers. 
   ```
   pip install datasets
   ```
 
 # 
 
-# Executando o projeto
+# Running the project
 
-O front/back-end (chat) está em docker, e pode ser executado com:
+The front/back-end (chat) is dockerized, and can be run with:
 
-Se for a primeira vez:
+If it's the first time:
   ```
   cd LanguageModels
   cd src
   sudo docker-compose up --build
   ```
-Caso contrário:
+Otherwise:
   ```
   cd LanguageModels
   cd src
   sudo docker-compose up
   ```
 
-Já o treino do DPR (`3. Treino do DPR/`) roda fora do docker, num venv Python —
-ver instruções, resultados e limitações em [`3. Treino do DPR/README.md`](./3.%20Treino%20do%20DPR/README.md).
+DPR training (`3. Treino do DPR/`) runs outside of docker, in a Python venv —
+see instructions, results, and limitations in [`3. Treino do DPR/README.md`](./3.%20Treino%20do%20DPR/README.md).
 
-## Resultados do DPR e limitações
+## DPR results and limitations
 
-O baseline (bert-base-uncased, dataset de 5k exemplos, 1 época) atingiu **36.9%
-de accuracy top-1 no conjunto de teste** (contra ~3% de chance) — ver detalhes de
-como essa métrica é calculada no README da pasta de treino.
+The baseline (bert-base-uncased, 5k-example dataset, 1 epoch) reached **36.9%
+top-1 accuracy on the test set** (vs. ~3% chance level) — see the training
+folder's README for details on how this metric is computed.
 
-Uma segunda config, com um encoder pré-treinado em português (BERTimbau) e o
-dataset maior (50k exemplos), **não foi concluída**: o hardware disponível
-apresentou instabilidade sob carga sustentada (crashes recorrentes durante o
-treino, incluindo um travamento completo da máquina), impedindo terminar esse
-treino mais pesado. Contribuições terminando esse treino — ou revisitando o
-projeto com encoders mais modernos — são muito bem-vindas.
-
-
+A second config, using a Portuguese-pretrained encoder (BERTimbau) and the
+larger dataset (50k examples), **was not completed**: the available hardware
+showed instability under sustained load (recurring crashes during training,
+including one full machine freeze), preventing this heavier training run from
+finishing. Contributions to finish this training — or to revisit the project
+with more modern encoders — are very welcome.
 
 
 
-# Resumo do Projeto de NLP e Recuperação de Informações
 
-Este projeto explora técnicas avançadas de Processamento de Linguagem Natural (NLP) e Recuperação de Informações, focando na interação entre humanos e máquinas através da linguagem. Utilizando a linguagem de programação Python, o código abrange desde o tratamento de dados até o treinamento de modelos de Dense Passage Retrieval (DPR).
+# NLP and Information Retrieval Project Summary
 
-## Biblioteca Haystack (histórico)
+This project explores advanced Natural Language Processing (NLP) and Information Retrieval techniques, focusing on human-machine interaction through language. Using the Python programming language, the code covers everything from data handling to training Dense Passage Retrieval (DPR) models.
 
-O treino originalmente usava a biblioteca [Haystack](https://github.com/deepset-ai/haystack) pra tarefas de busca e recuperação de informações — ela permite construir sistemas de busca que compreendem contexto e semântica, integrando-se com modelos de machine learning. Ela não é mais usada no treino atual (ver nota acima), mas fica registrada aqui pelo contexto histórico do projeto.
+## Haystack library (historical)
 
-## Tratamento de Dados
+Training originally used the [Haystack](https://github.com/deepset-ai/haystack) library for search and information retrieval tasks — it allows building search systems that understand context and semantics, integrating with machine learning models. It is no longer used in the current training code (see note above), but is kept here for the project's historical context.
 
-O tratamento de dados é uma etapa crucial neste projeto, envolvendo a limpeza, preparação e manipulação de conjuntos de dados para treinamento e avaliação dos modelos. Este processo é fundamental para garantir que os modelos de NLP possam aprender de maneira eficaz, removendo ruídos e estruturando os dados adequadamente.
+## Data processing
+
+Data processing is a crucial step in this project, involving the cleaning, preparation, and manipulation of datasets for model training and evaluation. This process is fundamental to ensuring NLP models can learn effectively, by removing noise and properly structuring the data.
 
 ## Dense Passage Retrieval (DPR)
 
-O DPR é uma técnica de destaque que permite a recuperação eficiente de passagens de texto relevantes para uma dada consulta. Funciona através do treinamento de modelos para entender a semântica das perguntas e dos documentos, criando representações vetoriais densas que facilitam a busca por similaridade semântica.
+DPR is a prominent technique that enables efficient retrieval of text passages relevant to a given query. It works by training models to understand the semantics of questions and documents, creating dense vector representations that facilitate search by semantic similarity.
 
-## Importância do DPR
+## Importance of DPR
 
-A implementação e o treinamento do DPR são essenciais para o sucesso do sistema de busca, destacando a importância de modelos de aprendizado profundo no avanço das capacidades de NLP. Esta abordagem supera os métodos tradicionais de busca por palavras-chave, oferecendo respostas mais precisas e contextualmente relevantes.
+Implementing and training the DPR is essential to the success of the search system, highlighting the importance of deep learning models in advancing NLP capabilities. This approach surpasses traditional keyword-based search methods, offering more accurate and contextually relevant answers.
 
 
-## Base de dados em português
+## Portuguese dataset
 
-Uma das principais contribuições desse projeto consiste em fornecer uma base perguntas e respostas com mais de 50000 passagens traduzidas com a utilização de um modelo de tradução treinado especificamente para a conversão de textos em inglês para português [NQ-PT-BR](https://huggingface.co/datasets/edu-milanez/NQ-PT-BR)
+One of this project's main contributions is providing a question-and-answer dataset with over 50,000 passages translated using a translation model specifically trained for converting English text to Portuguese: [NQ-PT-BR](https://huggingface.co/datasets/edu-milanez/NQ-PT-BR)

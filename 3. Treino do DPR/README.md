@@ -1,17 +1,18 @@
-# Treino do DPR
+# DPR Training
 
-Pipeline de treino de um DPR (Dense Passage Retriever) em português: dois encoders
-BERT-like (query e passage) treinados para aproximar pergunta e passagem correta no
-espaço de embeddings, com NLL loss sobre positivo + negativos difíceis + negativos
-"in-batch" (mesma formulação do paper original, Karpukhin et al., 2020).
+Training pipeline for a Portuguese DPR (Dense Passage Retriever): two BERT-like
+encoders (query and passage) trained to bring the correct question and passage
+close together in embedding space, using an NLL loss over the positive + hard
+negatives + "in-batch" negatives (same formulation as the original paper,
+Karpukhin et al., 2020).
 
-> **Este projeto tem cerca de dois anos.** Ele foi feito numa época em que os
-> modelos de linguagem em português (e os encoders disponíveis em geral) eram
-> bem mais limitados do que os de hoje. Os números abaixo refletem esse contexto —
-> hoje em dia provavelmente dá pra conseguir resultados bem melhores trocando os
-> encoders base por opções mais recentes.
+> **This project is about two years old.** It was built at a time when
+> Portuguese language models (and available encoders in general) were much
+> more limited than today's. The numbers below reflect that context — nowadays
+> you'd likely get much better results by swapping in more recent base
+> encoders.
 
-## Como rodar
+## How to run
 
 ```bash
 cd "3. Treino do DPR"
@@ -20,54 +21,56 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-1. Converter o dataset SQuAD-like para o formato DPR (minera negativos difíceis
-   localmente com TF-IDF, sem precisar de Elasticsearch/Haystack):
+1. Convert the SQuAD-like dataset to DPR format (mines hard negatives locally
+   with TF-IDF, no need for Elasticsearch/Haystack):
 
    ```bash
    python squad_to_dpr.py --squad_input_filename data-5k.json \
        --dpr_output_filename data-5k-dpr.json --split_dataset
    ```
 
-2. Treinar, escolhendo a config:
+2. Train, picking a config:
 
    ```bash
-   python dpr.py --run baseline    # bert-base-uncased, dataset 5k, 1 época
-   python dpr.py --run modified    # BERTimbau, dataset 50k, 3 épocas
+   python dpr.py --run baseline    # bert-base-uncased, 5k dataset, 1 epoch
+   python dpr.py --run modified    # BERTimbau, 50k dataset, 3 epochs
    ```
 
-   Cada execução salva config, log e checkpoints em `runs/<config>_<timestamp>/`.
+   Each run saves its config, log, and checkpoints to `runs/<config>_<timestamp>/`.
 
-3. Comparar execuções já feitas:
+3. Compare runs already done:
 
    ```bash
    python compare_runs.py
    ```
 
-4. (Opcional) Subir um serviço de retrieval real com um checkpoint treinado —
-   ver `../dpr_service.py` na raiz do projeto, que carrega os encoders salvos e
-   indexa as passagens pra responder queries via API.
+4. (Optional) Serve real retrieval with a trained checkpoint — see
+   `../dpr_service.py` at the project root, which loads the saved encoders and
+   indexes the passages to answer queries via an API.
 
-## Taxa de acerto (baseline)
+## Accuracy (baseline)
 
-Config `baseline` (bert-base-uncased, `data-5k.json`, 1 época) — métrica é a
-accuracy top-1: dado um lote, o modelo tem que apontar qual das passagens
-candidatas do lote é a resposta certa pra cada pergunta (positivo + negativos
-difíceis + negativos "in-batch" de outras perguntas do mesmo lote).
+`baseline` config (bert-base-uncased, `data-5k.json`, 1 epoch) — the metric is
+top-1 accuracy: given a batch, the model has to point to which of the
+candidate passages in the batch is the correct answer for each question
+(positive + hard negatives + "in-batch" negatives from other questions in the
+same batch).
 
-| Conjunto | Accuracy | Chance level* |
+| Split | Accuracy | Chance level* |
 |----------|----------|----------------|
 | dev      | 40.0%    | ~3% |
 | test     | 36.9%    | ~3% |
 
-\* Cada pergunta tem ~32 passagens candidatas no lote (batch 16 × 2 passagens/pergunta), então acertar no chute daria ~3%.
+\* Each question has ~32 candidate passages in the batch (batch size 16 × 2 passages/question), so guessing randomly would give ~3%.
 
-## Limitações / trabalho não concluído
+## Limitations / unfinished work
 
-A config `modified` (BERTimbau + dataset de 50k + mais épocas) **não foi
-concluída** — o hardware disponível durante o desenvolvimento (CPU com
-instabilidade sob carga sustentada) causava crashes recorrentes e, em um caso,
-travou a máquina por completo, impedindo terminar esse treino maior.
+The `modified` config (BERTimbau + 50k dataset + more epochs) **was not
+completed** — the hardware available during development (a CPU that was
+unstable under sustained load) caused recurring crashes and, in one case,
+froze the machine entirely, preventing this larger training run from
+finishing.
 
-Se alguém quiser contribuir terminando esse treino (ou testando com hardware
-mais estável / encoders mais modernos), seria muito bem-vindo — o pipeline e os
-dados já estão prontos, só falta rodar até o fim.
+If anyone wants to contribute by finishing this training run (or testing with
+more stable hardware / more modern encoders), it would be very welcome — the
+pipeline and data are already in place, it just needs to be run to completion.
