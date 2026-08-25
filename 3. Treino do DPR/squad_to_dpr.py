@@ -1,12 +1,15 @@
 """
-Script to convert a SQuAD-like QA-dataset format JSON file to DPR Dense Retriever training format
+Script to convert a SQuAD-like QA-dataset format JSON file to DPR Dense Retriever training format.
+
+Não depende de Elasticsearch/FAISS/Haystack: a mineração de negativos difíceis é
+feita localmente com um retriever TF-IDF (scikit-learn) sobre os próprios parágrafos
+do dataset — suficiente para achar candidatos textualmente parecidos com a pergunta
+que não contêm a resposta certa.
 
 Usage:
     squad_to_dpr.py --squad_input_filename <squad_input_filename> --dpr_output_filename <dpr_output_filename> [options]
 Arguments:
-    <squad_file_path>                   SQuAD file path
-    <dpr_output_path>                   DPR output folder path
-    --num_hard_negative_ctxs HNEG       Number of hard negative contexts [default: 30:int]
+    --num_hard_negative_ctxs HNEG       Number of hard negative contexts [default: 30]
     --split_dataset                     Whether to split the created dataset or not [default: False]
 
 SQuAD format
@@ -54,105 +57,59 @@ DPR format
 ]
 """
 
-from typing import Dict, Iterator, Tuple, List, Union
-
+import argparse
 import json
 import logging
-import argparse
-import subprocess
-from time import sleep
-from pathlib import Path
+from dataclasses import dataclass
 from itertools import islice
+from pathlib import Path
+from typing import Iterator, List
 
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
 from tqdm import tqdm
-
-from haystack.document_stores.base import BaseDocumentStore
-from haystack.document_stores.elasticsearch import ElasticsearchDocumentStore  # keep it here !
-from haystack.document_stores.faiss import FAISSDocumentStore  # keep it here !
-from haystack.nodes.retriever.sparse import BM25Retriever  # keep it here !  # pylint: disable=unused-import
-from haystack.nodes.retriever.dense import DensePassageRetriever  # keep it here !  # pylint: disable=unused-import
-from haystack.nodes.preprocessor import PreProcessor
-from haystack.nodes.retriever.base import BaseRetriever
-from haystack.lazy_imports import LazyImport
-
-with LazyImport("Run 'pip install farm-haystack[elasticsearch]'") as es_import:
-    from elasticsearch import Elasticsearch
-
 
 logger = logging.getLogger(__name__)
 
 
-class HaystackDocumentStore:
-    def __init__(self, store_type: str = "ElasticsearchDocumentStore", **kwargs):
-        es_import.check()
-
-        if store_type not in ["ElasticsearchDocumentStore", "FAISSDocumentStore"]:
-            raise Exception(
-                "At the moment we only deal with one of these types: ElasticsearchDocumentStore, FAISSDocumentStore"
-            )
-
-        self._store_type = store_type
-        self._kwargs = kwargs
-        self._preparation = {
-            "ElasticsearchDocumentStore": self.__prepare_ElasticsearchDocumentStore,
-            "FAISSDocumentStore": self.__prepare_FAISSDocumentStore,
-        }
-
-    def get_document_store(self):
-        self._preparation[self._store_type]()
-        return globals()[self._store_type](**self._kwargs)
-
-    @staticmethod
-    def __prepare_ElasticsearchDocumentStore():
-        es = Elasticsearch(["http://localhost:9200/"], verify_certs=True)
-        if not es.ping():
-            logger.info("Starting Elasticsearch ...")
-            status = subprocess.run(
-                ['docker  run -p 9200:9200 joaovictorlf/ptwiki-elasticsearch:v1']
-            )
-            if status.returncode:
-                raise Exception("Failed to launch Elasticsearch.")
-            sleep(30)
-
-        es.indices.delete(index="document", ignore=[400, 404])
-
-    def __prepare_FAISSDocumentStore(self):
-        pass
+@dataclass
+class Passage:
+    title: str
+    text: str
 
 
-class HaystackRetriever:
-    def __init__(self, document_store: BaseDocumentStore, retriever_type: str, **kwargs):
-        if retriever_type not in ["BM25Retriever", "DensePassageRetriever", "EmbeddingRetriever"]:
-            raise Exception("Use one of these types: BM25Retriever", "DensePassageRetriever", "EmbeddingRetriever")
-        self._retriever_type = retriever_type
-        self._document_store = document_store
-        self._kwargs = kwargs
+class TfidfHardNegativeMiner:
+    """Indexa os parágrafos do próprio dataset com TF-IDF e recupera, para cada
+    pergunta, os parágrafos textualmente mais parecidos — candidatos a negativo
+    difícil (o filtro por resposta é feito depois, em get_hard_negative_contexts)."""
 
-    def get_retriever(self):
-        return globals()[self._retriever_type](document_store=self._document_store, **self._kwargs)
+    def __init__(self, passages: List[Passage]):
+        self.passages = passages
+        self.vectorizer = TfidfVectorizer(lowercase=True)
+        self.matrix = self.vectorizer.fit_transform(p.text for p in passages)
+
+    def retrieve(self, query: str, top_k: int) -> List[Passage]:
+        query_vec = self.vectorizer.transform([query])
+        scores = np.asarray((self.matrix @ query_vec.T).todense()).ravel()
+        top_idx = np.argsort(-scores)[:top_k]
+        return [self.passages[i] for i in top_idx]
 
 
 def add_is_impossible(squad_data: dict, json_file_path: Path):
     new_path = json_file_path.parent / Path(f"{json_file_path.stem}_impossible.json")
-    squad_articles = list(squad_data["data"])  # create new list with this list although lists are inmutable :/
-    for article in squad_articles:
+    for article in squad_data["data"]:
         for paragraph in article["paragraphs"]:
             for question in paragraph["qas"]:
                 question["is_impossible"] = False
 
-    squad_data["data"] = squad_articles
     with open(new_path, "w", encoding="utf-8") as filo:
         json.dump(squad_data, filo, indent=4, ensure_ascii=False)
 
     return new_path, squad_data
 
 
-def get_number_of_questions(squad_data: dict):
-    nb_questions = 0
-    for article in squad_data:
-        for paragraph in article["paragraphs"]:
-            nb_questions += len(paragraph["qas"])
-    return nb_questions
+def get_number_of_questions(squad_data: list):
+    return sum(len(paragraph["qas"]) for article in squad_data for paragraph in article["paragraphs"])
 
 
 def has_is_impossible(squad_data: dict):
@@ -164,7 +121,29 @@ def has_is_impossible(squad_data: dict):
     return False
 
 
-def create_dpr_training_dataset(squad_data: dict, retriever: BaseRetriever, num_hard_negative_ctxs: int = 30):
+def collect_passages(squad_data: list) -> List[Passage]:
+    return [
+        Passage(title=article.get("title", ""), text=paragraph["context"])
+        for article in squad_data
+        for paragraph in article["paragraphs"]
+    ]
+
+
+def get_hard_negative_contexts(miner: TfidfHardNegativeMiner, question: str, answers: List[str], n_ctxs: int = 30):
+    # busca uma margem maior que n_ctxs pois parte dos candidatos será descartada
+    # por conter a resposta certa (não seria um negativo de verdade)
+    candidates = miner.retrieve(query=question, top_k=n_ctxs * 3 + 10)
+    hard_negative_ctxs = []
+    for passage in candidates:
+        if any(str(answer).lower() in passage.text.lower() for answer in answers):
+            continue
+        hard_negative_ctxs.append({"title": passage.title, "text": passage.text, "passage_id": ""})
+        if len(hard_negative_ctxs) >= n_ctxs:
+            break
+    return hard_negative_ctxs
+
+
+def create_dpr_training_dataset(squad_data: list, miner: TfidfHardNegativeMiner, num_hard_negative_ctxs: int = 30):
     n_non_added_questions = 0
     n_questions = 0
     for article in tqdm(squad_data, unit="article"):
@@ -176,7 +155,7 @@ def create_dpr_training_dataset(squad_data: dict, retriever: BaseRetriever, num_
                     continue
                 answers = [a["text"] for a in question["answers"]]
                 hard_negative_ctxs = get_hard_negative_contexts(
-                    retriever=retriever, question=question["question"], answers=answers, n_ctxs=num_hard_negative_ctxs
+                    miner=miner, question=question["question"], answers=answers, n_ctxs=num_hard_negative_ctxs
                 )
                 positive_ctxs = [{"title": article_title, "text": context, "passage_id": ""}]
 
@@ -216,33 +195,19 @@ def save_dataset(iter_dpr: Iterator, dpr_output_filename: Path, total_nb_questio
     else:
         dataset_splits = {dpr_output_filename: iter_dpr}
     for path, set_iter in dataset_splits.items():
+        examples = list(set_iter)
         with open(path, "w", encoding="utf-8") as json_ds:
-            json.dump(list(set_iter), json_ds, indent=4, ensure_ascii=False)
-
-
-def get_hard_negative_contexts(retriever: BaseRetriever, question: str, answers: List[str], n_ctxs: int = 30):
-    list_hard_neg_ctxs = []
-    retrieved_docs = retriever.retrieve(query=question, top_k=n_ctxs, index="document")
-    for retrieved_doc in retrieved_docs:
-        retrieved_doc_id = retrieved_doc.meta.get("name", "")
-        retrieved_doc_text = retrieved_doc.content
-        if any(str(answer).lower() in retrieved_doc_text.lower() for answer in answers):
-            continue
-        list_hard_neg_ctxs.append({"title": retrieved_doc_id, "text": retrieved_doc_text, "passage_id": ""})
-
-    return list_hard_neg_ctxs
+            json.dump(examples, json_ds, indent=4, ensure_ascii=False)
+        logger.info("Salvo %s (%s exemplos)", path, len(examples))
 
 
 def load_squad_file(squad_file_path: Path):
     if not squad_file_path.exists():
-        raise FileNotFoundError
+        raise FileNotFoundError(squad_file_path)
 
     with open(squad_file_path, encoding="utf-8") as squad_file:
         squad_data = json.load(squad_file)
 
-    # squad_data["data"] = squad_data["data"][:10]  # sample
-
-    # check it has the is_impossible field
     if not has_is_impossible(squad_data=squad_data):
         squad_file_path, squad_data = add_is_impossible(squad_data, squad_file_path)
 
@@ -252,41 +217,21 @@ def load_squad_file(squad_file_path: Path):
 def main(
     squad_input_filename: Path,
     dpr_output_filename: Path,
-    preprocessor,
-    document_store_type_config: Tuple[str, Dict] = ("ElasticsearchDocumentStore", {}),
-    retriever_type_config: Tuple[str, Dict] = ("BM25Retriever", {}),
     num_hard_negative_ctxs: int = 30,
     split_dataset: bool = True,
 ):
     tqdm.write(f"Using SQuAD-like file {squad_input_filename}")
 
-    # 1. Load squad file data
-    print(squad_input_filename)
-    squad_file_path, squad_data = load_squad_file(squad_file_path=squad_input_filename)
+    _, squad_data = load_squad_file(squad_file_path=squad_input_filename)
 
-    # 2. Prepare document store
-    store_factory = HaystackDocumentStore(store_type=document_store_type_config[0], **document_store_type_config[1])
-    document_store: Union[ElasticsearchDocumentStore, FAISSDocumentStore] = store_factory.get_document_store()
+    passages = collect_passages(squad_data)
+    logger.info("Indexando %s parágrafos com TF-IDF para mineração de negativos difíceis...", len(passages))
+    miner = TfidfHardNegativeMiner(passages)
 
-    # 3. Load data into the document store
-    document_store.add_eval_data(squad_file_path.as_posix(), doc_index="document", preprocessor=preprocessor)
-
-    # 4. Prepare retriever
-    retriever_factory = HaystackRetriever(
-        document_store=document_store, retriever_type=retriever_type_config[0], **retriever_type_config[1]
-    )
-    retriever = retriever_factory.get_retriever()
-
-    # 5. Get embeddings if needed
-    if retriever_type_config[0] in ["DensePassageRetriever", "EmbeddingRetriever"]:
-        document_store.update_embeddings(retriever)
-
-    # 6. Find positive and negative contexts and create new dataset
     iter_DPR = create_dpr_training_dataset(
-        squad_data=squad_data, retriever=retriever, num_hard_negative_ctxs=num_hard_negative_ctxs
+        squad_data=squad_data, miner=miner, num_hard_negative_ctxs=num_hard_negative_ctxs
     )
 
-    # 7. Split (maybe) and save dataset
     total_nb_questions = get_number_of_questions(squad_data)
     save_dataset(
         iter_dpr=iter_DPR,
@@ -297,6 +242,8 @@ def main(
 
 
 if __name__ == "__main__":
+    logging.basicConfig(format="%(levelname)s - %(name)s -  %(message)s", level=logging.INFO)
+
     parser = argparse.ArgumentParser(description="Convert a SQuAD JSON format dataset to DPR format.")
     parser.add_argument(
         "--squad_input_filename",
@@ -317,6 +264,7 @@ if __name__ == "__main__":
         dest="num_hard_negative_ctxs",
         help="Number of hard negative contexts to use",
         metavar="num_hard_negative_ctxs",
+        type=int,
         default=30,
     )
     parser.add_argument(
@@ -328,30 +276,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    preprocessor = PreProcessor(
-        split_length=100,
-        split_overlap=0,
-        clean_empty_lines=False,
-        split_respect_sentence_boundary=False,
-        clean_whitespace=False,
-    )
-    squad_input_filename = Path(args.squad_input_filename)
-    dpr_output_filename = Path(args.dpr_output_filename)
-    num_hard_negative_ctxs = args.num_hard_negative_ctxs
-    split_dataset = args.split_dataset
-
-    retriever_dpr_config = {"use_gpu": True}
-    store_dpr_config = {"embedding_field": "embedding", "embedding_dim": 768}
-
-    retriever_bm25_config: dict = {}
-
     main(
-        squad_input_filename=squad_input_filename,
-        dpr_output_filename=dpr_output_filename,
-        preprocessor=preprocessor,
-        document_store_type_config=("ElasticsearchDocumentStore", store_dpr_config),
-        # retriever_type_config=("DensePassageRetriever", retriever_dpr_config),  # dpr
-        retriever_type_config=("BM25Retriever", retriever_bm25_config),  # bm25
-        num_hard_negative_ctxs=num_hard_negative_ctxs,
-        split_dataset=split_dataset,
+        squad_input_filename=Path(args.squad_input_filename),
+        dpr_output_filename=Path(args.dpr_output_filename),
+        num_hard_negative_ctxs=args.num_hard_negative_ctxs,
+        split_dataset=args.split_dataset,
     )

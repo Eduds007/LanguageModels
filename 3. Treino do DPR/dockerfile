@@ -11,10 +11,9 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Define environment variables
-ENV SQUAD_INPUT_FILENAME=""
-ENV DPR_OUTPUT_FILENAME=""
+ENV SQUAD_INPUT_FILENAME="data-5k.json"
+ENV DPR_OUTPUT_FILENAME="data-5k-dpr.json"
 ENV NUM_HARD_NEGATIVE_CTXS=30
 
-
-# Command to run the script
-CMD ["python", "squad_to_dpr.py", "--squad_input_filename", "data-5k-json", "--dpr_output_filename", "data-dpr-5k.json", "--num_hard_negative_ctxs", "30"]
+# Command to run the script (shell form so the ENV vars above are actually used)
+CMD python squad_to_dpr.py --squad_input_filename "$SQUAD_INPUT_FILENAME" --dpr_output_filename "$DPR_OUTPUT_FILENAME" --num_hard_negative_ctxs "$NUM_HARD_NEGATIVE_CTXS" --split_dataset

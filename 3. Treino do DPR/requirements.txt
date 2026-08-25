@@ -1,1 +1,7 @@
-farm-haystack[elasticsearch]
+torch
+transformers
+sentencepiece
+scikit-learn
+numpy
+tqdm
+pandas

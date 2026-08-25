@@ -3,3 +3,8 @@
 *.ipynb_checkpoints
 dpr/
 *.pyc
+__pycache__/
+3. Treino do DPR/.venv/
+3. Treino do DPR/runs/
+3. Treino do DPR/*-dpr.*.json
+3. Treino do DPR/*_impossible.json
