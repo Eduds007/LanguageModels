@@ -8,3 +8,4 @@ __pycache__/
 3. Treino do DPR/runs/
 3. Treino do DPR/*-dpr.*.json
 3. Treino do DPR/*_impossible.json
+*.out

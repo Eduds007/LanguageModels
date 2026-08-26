@@ -27,15 +27,13 @@ logging.basicConfig(format="%(asctime)s %(levelname)s - %(message)s", level=logg
 logger = logging.getLogger("dpr_service")
 
 BASE_DIR = Path(__file__).parent / "3. Treino do DPR"
-MODEL_DIR = BASE_DIR / "runs" / "baseline_20260825-143349" / "model"
-DATA_FILE = BASE_DIR / "data-5k.json"
+MODEL_DIR = BASE_DIR / "runs" / "modified_20260826-085028" / "model"
+DATA_FILE = BASE_DIR / "data-50k.json"
 INDEX_CACHE = BASE_DIR / "passage_index_cache.pt"
 TOP_K = 3
 MAX_SEQ_LEN_QUERY = 64
 MAX_SEQ_LEN_PASSAGE = 256
-# Inferência apenas (sem backward) — mais leve que o treino, mas usamos CPU por
-# padrão para evitar a instabilidade de GPU observada durante os treinos.
-DEVICE = torch.device("cpu")
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 class QueryRequest(BaseModel):
